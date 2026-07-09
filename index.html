@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Countdown</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="wrap">
+    <p class="lemon-title">🍋 CAVA 🍋</p>
+    <h1 id="title">Countdown to us seeing each other again <span class="heart">♥</span></h1>
+    <div class="countdown" id="countdown">
+      <div class="unit">
+        <span class="num" id="days">00</span>
+        <span class="label">days</span>
+      </div>
+      <div class="unit">
+        <span class="num" id="hours">00</span>
+        <span class="label">hours</span>
+      </div>
+      <div class="unit">
+        <span class="num" id="minutes">00</span>
+        <span class="label">minutes</span>
+      </div>
+      <div class="unit">
+        <span class="num" id="seconds">00</span>
+        <span class="label">seconds</span>
+      </div>
+    </div>
+    <div class="media-row">
+      <div class="song-section" id="song-section">
+        <p class="song-label">Todays Bruh luh Bruh hit:</p>
+        <a id="song-link" class="song-link" href="#">-</a>
+        <div id="song-embed" class="song-embed"></div>
+      </div>
+      <div class="cover" id="cover">
+        <img id="cover-img" class="cover-img" alt="photo">
+      </div>
+    </div>
+    <p id="done-message" class="done-message hidden">It's here! 🎉</p>
+  </main>
+
+  <button id="tilt-button" class="tilt-button hidden">Enable tilt &amp; shake</button>
+  <div id="sprite-layer" class="sprite-layer"></div>
+
+  <script src="script.js"></script>
+  <script src="sprites.js"></script>
+</body>
+</html>
