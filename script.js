@@ -1,8 +1,9 @@
-// August 28, 2026, 12:00 AM Eastern (EDT, UTC-4 — daylight time is in effect in August)
-const TARGET_DATE = new Date('2026-08-28T00:00:00-04:00');
+// August 22, 2026, 12:00 AM Eastern (EDT, UTC-4 — daylight time is in effect in August)
+const TARGET_DATE = new Date('2026-08-22T00:00:00-04:00');
 
-// One song per remaining day, no repeats. Index 0 = day 50 (today), last index = day 0.
-// Days 50-21 from the "bruh luh bruh" playlist, days 20-0 from the "songz" playlist.
+// One song per remaining day, no repeats. Index 0 = day 42 (today), last index = day 0.
+// The final entry (day 0, "today is the day!!") is a specific pinned song, not part
+// of the sequential playlist pull.
 const SONGS = [
   { title: 'Video Games', artist: 'Lana Del Rey', url: 'https://open.spotify.com/track/24jvD83UgLmrdGjhWTFslY' },
   { title: 'ocean eyes', artist: 'Billie Eilish', url: 'https://open.spotify.com/track/7hDVYcQq6MxkdJGweuCtl9' },
@@ -46,17 +47,10 @@ const SONGS = [
   { title: 'Billie Bossa Nova', artist: 'Billie Eilish', url: 'https://open.spotify.com/track/2KnuaZYoGzDoHiBTNYOTXG' },
   { title: 'THEMSELVES', artist: 'Jordan Ward', url: 'https://open.spotify.com/track/3vzSGr8Anj3SLaMrp613Gm' },
   { title: 'Big Black Car', artist: 'Gregory Alan Isakov', url: 'https://open.spotify.com/track/3Kj2EWpIBnvETsYq4cq0IH' },
-  { title: 'Legendary Lovers', artist: 'Katy Perry', url: 'https://open.spotify.com/track/0pOZYYEJawmTAPtkzYKSa2' },
-  { title: 'Harleys In Hawaii', artist: 'Katy Perry', url: 'https://open.spotify.com/track/5nCthAh3jt4xKuLJAifAaR' },
-  { title: 'Sunny day', artist: 'beabadoobee', url: 'https://open.spotify.com/track/12UQIJePnGeLmpVReYpG2w' },
+  // Pinned final song for day 0 ("today is the day!!") — not part of the sequential pull.
   { title: 'Those Eyes', artist: 'New West', url: 'https://open.spotify.com/track/50x1Ic8CaXkYNvjmxe3WXy' },
-  { title: 'Champagne Coast', artist: 'Blood Orange', url: 'https://open.spotify.com/track/2KufM8PiQY4i52XhRL96Fd' },
-  { title: 'Ayonha', artist: 'Hamid Al Shaeri', url: 'https://open.spotify.com/track/3q9Kp9seLNsYSqRAwdJuX3' },
-  { title: "I've Been In Love", artist: 'Jungle, Channel Tres', url: 'https://open.spotify.com/track/7j3zZ2jAjzFD60UjhldhHo' },
-  { title: 'Juna', artist: 'Clairo', url: 'https://open.spotify.com/track/2mWfVxEo4xZYDaz0v7hYrN' },
-  { title: 'Celeste', artist: 'GoldFord', url: 'https://open.spotify.com/track/60tY66pPyOyLVSrHsD9eEU' },
 ];
-const FIRST_DAY = 50; // SONGS[0] corresponds to this many days remaining
+const FIRST_DAY = 42; // SONGS[0] corresponds to this many days remaining (today, as of building this)
 
 function getSongForDay(days) {
   const index = FIRST_DAY - days;
