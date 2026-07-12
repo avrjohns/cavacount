@@ -6,9 +6,6 @@ const TARGET_DATE = new Date('2026-08-22T00:00:00-04:00');
 // of the sequential playlist pull.
 const SONGS = [
   { title: 'Video Games', artist: 'Lana Del Rey', url: 'https://open.spotify.com/track/24jvD83UgLmrdGjhWTFslY' },
-  { title: 'ocean eyes', artist: 'Billie Eilish', url: 'https://open.spotify.com/track/7hDVYcQq6MxkdJGweuCtl9' },
-  { title: 'Tears', artist: 'Sabrina Carpenter', url: 'https://open.spotify.com/track/42VUCXerQ5qTr4Qp6PhKo4' },
-  { title: 'Diet Pepsi', artist: 'Addison Rae', url: 'https://open.spotify.com/track/6ouhsRJ7gExB7LCYjITk4Y' },
   { title: '12 to 12', artist: 'sombr', url: 'https://open.spotify.com/track/05od2qm2MTSKCHxy1GBp5W' },
   { title: 'Homewrecker', artist: 'sombr', url: 'https://open.spotify.com/track/7tICCrK3CcyRFKza7yrR0z' },
   { title: 'The Color Violet', artist: 'Tory Lanez', url: 'https://open.spotify.com/track/3azJifCSqg9fRij2yKIbWz' },
@@ -47,6 +44,9 @@ const SONGS = [
   { title: 'Billie Bossa Nova', artist: 'Billie Eilish', url: 'https://open.spotify.com/track/2KnuaZYoGzDoHiBTNYOTXG' },
   { title: 'THEMSELVES', artist: 'Jordan Ward', url: 'https://open.spotify.com/track/3vzSGr8Anj3SLaMrp613Gm' },
   { title: 'Big Black Car', artist: 'Gregory Alan Isakov', url: 'https://open.spotify.com/track/3Kj2EWpIBnvETsYq4cq0IH' },
+  { title: 'Legendary Lovers', artist: 'Katy Perry', url: 'https://open.spotify.com/track/0pOZYYEJawmTAPtkzYKSa2' },
+  { title: 'Harleys In Hawaii', artist: 'Katy Perry', url: 'https://open.spotify.com/track/5nCthAh3jt4xKuLJAifAaR' },
+  { title: 'Sunny day', artist: 'beabadoobee', url: 'https://open.spotify.com/track/12UQIJePnGeLmpVReYpG2w' },
   // Pinned final song for day 0 ("today is the day!!") — not part of the sequential pull.
   { title: 'Those Eyes', artist: 'New West', url: 'https://open.spotify.com/track/50x1Ic8CaXkYNvjmxe3WXy' },
 ];
