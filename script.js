@@ -9,8 +9,6 @@ const SONGS = [
   { title: '12 to 12', artist: 'sombr', url: 'https://open.spotify.com/track/05od2qm2MTSKCHxy1GBp5W' },
   { title: 'Homewrecker', artist: 'sombr', url: 'https://open.spotify.com/track/7tICCrK3CcyRFKza7yrR0z' },
   { title: 'The Color Violet', artist: 'Tory Lanez', url: 'https://open.spotify.com/track/3azJifCSqg9fRij2yKIbWz' },
-  { title: 'undressed', artist: 'sombr', url: 'https://open.spotify.com/track/4AajxCEwGEsmHmT4H1TwjY' },
-  { title: 'back to friends', artist: 'sombr', url: 'https://open.spotify.com/track/0FTmksd2dxiE5e3rWyJXs6' },
   { title: 'Closer', artist: 'Ne-Yo', url: 'https://open.spotify.com/track/2XbfY2O2v3xwedUJ0J2kkr' },
   { title: 'Espresso', artist: 'Sabrina Carpenter', url: 'https://open.spotify.com/track/2qSkIjg1o9h3YT9RAgYN75' },
   { title: 'PIXELATED KISSES', artist: 'Joji', url: 'https://open.spotify.com/track/0XpxBV69JUDfqyzrJbndsw' },
