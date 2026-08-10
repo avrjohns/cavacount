@@ -1,5 +1,5 @@
-// August 22, 2026, 12:00 AM Eastern (EDT, UTC-4 — daylight time is in effect in August)
-const TARGET_DATE = new Date('2026-08-22T00:00:00-04:00');
+// August 22, 2026, 8:00 AM Eastern / New York time (EDT, UTC-4 — daylight time is in effect in August)
+const TARGET_DATE = new Date('2026-08-22T08:00:00-04:00');
 
 // One song per remaining day, no repeats. Index 0 = day 42 (today), last index = day 0.
 // The final entry (day 0, "today is the day!!") is a specific pinned song, not part
@@ -9,6 +9,8 @@ const SONGS = [
   { title: '12 to 12', artist: 'sombr', url: 'https://open.spotify.com/track/05od2qm2MTSKCHxy1GBp5W' },
   { title: 'Homewrecker', artist: 'sombr', url: 'https://open.spotify.com/track/7tICCrK3CcyRFKza7yrR0z' },
   { title: 'The Color Violet', artist: 'Tory Lanez', url: 'https://open.spotify.com/track/3azJifCSqg9fRij2yKIbWz' },
+  { title: 'undressed', artist: 'sombr', url: 'https://open.spotify.com/track/4AajxCEwGEsmHmT4H1TwjY' },
+  { title: 'back to friends', artist: 'sombr', url: 'https://open.spotify.com/track/0FTmksd2dxiE5e3rWyJXs6' },
   { title: 'Closer', artist: 'Ne-Yo', url: 'https://open.spotify.com/track/2XbfY2O2v3xwedUJ0J2kkr' },
   { title: 'Espresso', artist: 'Sabrina Carpenter', url: 'https://open.spotify.com/track/2qSkIjg1o9h3YT9RAgYN75' },
   { title: 'PIXELATED KISSES', artist: 'Joji', url: 'https://open.spotify.com/track/0XpxBV69JUDfqyzrJbndsw' },
@@ -34,8 +36,8 @@ const SONGS = [
   { title: 'Work Song', artist: 'Hozier', url: 'https://open.spotify.com/track/5TgEJ62DOzBpGxZ7WRsrqb' },
   { title: 'Stick Season', artist: 'Noah Kahan', url: 'https://open.spotify.com/track/0mflMxspEfB0VbI1kyLiAv' },
   { title: 'Clarity', artist: 'Zedd, Foxes', url: 'https://open.spotify.com/track/60wwxj6Dd9NJlirf84wr2c' },
-  { title: 'Maps', artist: 'Maroon 5', url: 'https://open.spotify.com/track/4gbVRS8gloEluzf0GzDOFc' },
-  { title: 'She Will Be Loved', artist: 'Maroon 5', url: 'https://open.spotify.com/track/7sapKrjDij2fpDVj0GxP66' },
+  { title: 'Fooled Around and Fell in Love', artist: 'Elvin Bishop', url: 'https://open.spotify.com/track/2hE5Lm5XOHR4t3xlhIFauP' },
+  { title: '1950', artist: 'King Princess', url: 'https://open.spotify.com/track/0CZ8lquoTX2Dkg7Ak2inwA' },
   { title: 'Moves Like Jagger', artist: 'Maroon 5, Christina Aguilera', url: 'https://open.spotify.com/track/7LcfRTgAVTs5pQGEQgUEzN' },
   { title: 'Let Me Inside', artist: 'Iration', url: 'https://open.spotify.com/track/08maIvh0evLsn4xFkVvLtw' },
   { title: 'Keep on Loving You', artist: 'Cigarettes After Sex', url: 'https://open.spotify.com/track/3GUSidbQwd7xuvU6AQorRh' },
@@ -65,6 +67,7 @@ const doneMessageEl = document.getElementById('done-message');
 const songSectionEl = document.getElementById('song-section');
 const songLinkEl = document.getElementById('song-link');
 const songEmbedEl = document.getElementById('song-embed');
+const mediaCardEl = document.querySelector('.media-card');
 
 function pad(num) {
   return String(num).padStart(2, '0');
@@ -81,6 +84,7 @@ function updateSong(days) {
   if (days === lastDayShown) return;
   lastDayShown = days;
   songEmbedEl.innerHTML = '';
+  mediaCardEl.classList.remove('playing');
   const song = getSongForDay(days);
   if (song) {
     songLinkEl.href = song.url;
@@ -102,14 +106,13 @@ songLinkEl.addEventListener('click', (event) => {
 
   const iframe = document.createElement('iframe');
   iframe.src = `https://open.spotify.com/embed/track/${trackId}?utm_source=generator&autoplay=1`;
-  iframe.width = '300';
-  iframe.height = '152';
   iframe.frameBorder = '0';
   iframe.allow = 'autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture';
   iframe.loading = 'lazy';
 
   songEmbedEl.innerHTML = '';
   songEmbedEl.appendChild(iframe);
+  mediaCardEl.classList.add('playing');
 });
 
 function tick() {
