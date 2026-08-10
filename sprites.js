@@ -4,8 +4,8 @@
 const SPRITE_LAYER = document.getElementById('sprite-layer');
 const TILT_BUTTON = document.getElementById('tilt-button');
 
-const SPRITE_IMAGES = ['sprites/spongebob.png', 'sprites/patrick.png'];
-const SPRITE_COUNT = 4; // 2 Spongebob + 2 Patrick, alternating — half of the previous 9
+const SPRITE_IMAGES = ['sprites/spongebob.png', 'sprites/patrick.png', 'sprites/spiderman.png'];
+const SPRITE_COUNT = 6; // 2 Spongebob + 2 Patrick + 2 Spider-Man, alternating
 const GRAVITY = 1300; // px/s^2, base downward acceleration
 const RESTITUTION = 0.4; // bounce energy retained on wall/floor hits
 const MAX_SPEED = 1900;
