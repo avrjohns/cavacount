@@ -103,18 +103,12 @@ body {
   background: var(--cream);
   border: 4px solid var(--outline);
   box-shadow: 5px 5px 0 var(--outline);
-  transform: rotate(-3deg);
   font-family: 'Baloo 2', 'Fredoka', sans-serif;
   font-weight: 700;
   font-size: clamp(0.95rem, 2.2vw, 1.15rem);
-  letter-spacing: 0.28em;
+  letter-spacing: 0.05em;
   text-transform: uppercase;
   color: var(--ink);
-}
-
-.eyebrow span,
-.eyebrow {
-  animation: none;
 }
 
 h1 {
@@ -133,17 +127,11 @@ h1 {
 }
 
 .heart {
-  color: var(--pink);
+  color: #ffffff;
   display: inline-block;
-  animation: pulse 1.1s ease-in-out infinite;
   text-shadow:
     -1.5px -1.5px 0 var(--outline), 1.5px -1.5px 0 var(--outline),
     -1.5px 1.5px 0 var(--outline), 1.5px 1.5px 0 var(--outline);
-}
-
-@keyframes pulse {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.25); }
 }
 
 .countdown {
@@ -206,12 +194,36 @@ h1 {
   justify-content: center;
   gap: 1.5rem;
   flex-wrap: wrap;
+  width: 100%;
   padding: 1.6rem 1.9rem;
   border-radius: 26px;
   background: var(--cream);
   border: 4px solid var(--outline);
   box-shadow: 7px 7px 0 var(--outline);
   transform: rotate(1deg);
+  transition: padding 0.2s ease, transform 0.2s ease;
+}
+
+/* Once a song is tapped, the embed grows to fill the remaining space next
+   to the photo — the photo keeps showing, only the plain text link goes away
+   since the embed itself already shows the title and artist. */
+.media-card.playing {
+  transform: rotate(0deg);
+}
+
+.media-card.playing .song-label,
+.media-card.playing .song-link {
+  display: none;
+}
+
+.media-card.playing .song-section {
+  flex: 1 1 240px;
+  min-width: 240px;
+}
+
+.media-card.playing .song-embed {
+  margin-top: 0;
+  width: 100%;
 }
 
 .song-section {
@@ -277,8 +289,15 @@ h1 {
 }
 
 .song-embed iframe {
-  border-radius: 12px;
-  border: 3px solid var(--outline);
+  display: block;
+  width: 100%;
+  height: 152px;
+  border: none;
+}
+
+.media-card.playing .song-embed iframe {
+  height: 152px;
+  border-radius: 16px;
 }
 
 .done-message {
