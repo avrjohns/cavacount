@@ -1,61 +1,60 @@
-// August 22, 2026, 8:00 AM Eastern / New York time (EDT, UTC-4 — daylight time is in effect in August)
-const TARGET_DATE = new Date('2026-08-22T08:00:00-04:00');
+// October 28, 2026, 12:00 AM Pacific
+const TARGET_DATE = new Date('2026-10-28T00:00:00-07:00');
 
-// One song per remaining day, no repeats. Index 0 = day 42 (today), last index = day 0.
-// The final entry (day 0, "today is the day!!") is a specific pinned song, not part
-// of the sequential playlist pull.
 const SONGS = [
-  { title: 'Video Games', artist: 'Lana Del Rey', url: 'https://open.spotify.com/track/24jvD83UgLmrdGjhWTFslY' },
-  { title: '12 to 12', artist: 'sombr', url: 'https://open.spotify.com/track/05od2qm2MTSKCHxy1GBp5W' },
-  { title: 'Homewrecker', artist: 'sombr', url: 'https://open.spotify.com/track/7tICCrK3CcyRFKza7yrR0z' },
-  { title: 'The Color Violet', artist: 'Tory Lanez', url: 'https://open.spotify.com/track/3azJifCSqg9fRij2yKIbWz' },
-  { title: 'undressed', artist: 'sombr', url: 'https://open.spotify.com/track/4AajxCEwGEsmHmT4H1TwjY' },
-  { title: 'back to friends', artist: 'sombr', url: 'https://open.spotify.com/track/0FTmksd2dxiE5e3rWyJXs6' },
-  { title: 'Closer', artist: 'Ne-Yo', url: 'https://open.spotify.com/track/2XbfY2O2v3xwedUJ0J2kkr' },
-  { title: 'Espresso', artist: 'Sabrina Carpenter', url: 'https://open.spotify.com/track/2qSkIjg1o9h3YT9RAgYN75' },
-  { title: 'PIXELATED KISSES', artist: 'Joji', url: 'https://open.spotify.com/track/0XpxBV69JUDfqyzrJbndsw' },
-  { title: 'Nonsense', artist: 'Sabrina Carpenter', url: 'https://open.spotify.com/track/6dgUya35uo964z7GZXM07g' },
-  { title: 'Stateside (with Zara Larsson)', artist: 'PinkPantheress, Zara Larsson', url: 'https://open.spotify.com/track/1DwscornXpj8fmOmYVlqZt' },
-  { title: 'No Scrubs', artist: 'TLC', url: 'https://open.spotify.com/track/1KGi9sZVMeszgZOWivFpxs' },
-  { title: "If I Ain't Got You", artist: 'Alicia Keys', url: 'https://open.spotify.com/track/3XVBdLihbNbxUwZosxcGuJ' },
-  { title: 'Love On The Brain', artist: 'Rihanna', url: 'https://open.spotify.com/track/5oO3drDxtziYU2H1X23ZIp' },
-  { title: 'Starboy', artist: 'The Weeknd, Daft Punk', url: 'https://open.spotify.com/track/7MXVkk9YMctZqd1Srtv4MB' },
-  { title: 'Die For You', artist: 'The Weeknd', url: 'https://open.spotify.com/track/2Ch7LmS7r2Gy2kc64wv3Bz' },
-  { title: 'Crush', artist: 'Duckwrth', url: 'https://open.spotify.com/track/3aUviSdBVbsdmH406j5GZC' },
-  { title: 'Everywhere (2017 Remaster)', artist: 'Fleetwood Mac', url: 'https://open.spotify.com/track/254bXAqt3zP6P50BdQvEsq' },
-  { title: 'No One Noticed', artist: 'The Marías', url: 'https://open.spotify.com/track/3siwsiaEoU4Kuuc9WKMUy5' },
-  { title: 'Love Me Not', artist: 'Ravyn Lenae', url: 'https://open.spotify.com/track/4WFgvKVfEhb3IUAFGrutTR' },
-  { title: 'Circus', artist: 'Britney Spears', url: 'https://open.spotify.com/track/7jk7gqyEonmVVYahZN5zhW' },
-  { title: 'I Wanna Go', artist: 'Britney Spears', url: 'https://open.spotify.com/track/5cCAZS9VhLGEDV4NCfieeg' },
-  { title: 'Gimme More', artist: 'Britney Spears', url: 'https://open.spotify.com/track/6ic8OlLUNEATToEFU3xmaH' },
-  { title: 'Snap Out Of It', artist: 'Arctic Monkeys', url: 'https://open.spotify.com/track/0NdTUS4UiNYCNn5FgVqKQY' },
-  { title: 'If U Seek Amy', artist: 'Britney Spears', url: 'https://open.spotify.com/track/2hdy9Wt9qp7M7d0U3ossu2' },
-  { title: 'Do I Wanna Know?', artist: 'Arctic Monkeys', url: 'https://open.spotify.com/track/5FVd6KXrgO9B3JPmC8OPst' },
-  { title: 'Do I Wanna Know? (BBC Live Lounge)', artist: 'Hozier', url: 'https://open.spotify.com/track/32btQnrL0HR6M1KKAPf3D3' },
-  { title: 'Maria', artist: 'Justin Bieber', url: 'https://open.spotify.com/track/7E1dQbOk1qcx9gEPUMBKsk' },
-  { title: 'Work Song', artist: 'Hozier', url: 'https://open.spotify.com/track/5TgEJ62DOzBpGxZ7WRsrqb' },
-  { title: 'Stick Season', artist: 'Noah Kahan', url: 'https://open.spotify.com/track/0mflMxspEfB0VbI1kyLiAv' },
-  { title: 'Clarity', artist: 'Zedd, Foxes', url: 'https://open.spotify.com/track/60wwxj6Dd9NJlirf84wr2c' },
-  { title: 'Fooled Around and Fell in Love', artist: 'Elvin Bishop', url: 'https://open.spotify.com/track/2hE5Lm5XOHR4t3xlhIFauP' },
-  { title: '1950', artist: 'King Princess', url: 'https://open.spotify.com/track/0CZ8lquoTX2Dkg7Ak2inwA' },
-  { title: 'Moves Like Jagger', artist: 'Maroon 5, Christina Aguilera', url: 'https://open.spotify.com/track/7LcfRTgAVTs5pQGEQgUEzN' },
-  { title: 'Let Me Inside', artist: 'Iration', url: 'https://open.spotify.com/track/08maIvh0evLsn4xFkVvLtw' },
+  { title: 'Time Bomb', artist: 'Iration', url: 'https://open.spotify.com/track/0KtKac3tvjeGjg6FXcUy7X' },
+  { title: 'kisses', artist: 'Slowdive', url: 'https://open.spotify.com/track/7LuPjGUfJqxuW14W4gMrU2' },
+  { title: 'Peach', artist: 'Kevin Abstract', url: 'https://open.spotify.com/track/5JRMqkR82k2fdDEAim9SCN' },
+  { title: 'Pretty Lady', artist: 'Rebelution', url: 'https://open.spotify.com/track/7yY9c4KkIqwqDy2EhgcJkv' },
   { title: 'Keep on Loving You', artist: 'Cigarettes After Sex', url: 'https://open.spotify.com/track/3GUSidbQwd7xuvU6AQorRh' },
-  { title: 'Billie Bossa Nova', artist: 'Billie Eilish', url: 'https://open.spotify.com/track/2KnuaZYoGzDoHiBTNYOTXG' },
-  { title: 'THEMSELVES', artist: 'Jordan Ward', url: 'https://open.spotify.com/track/3vzSGr8Anj3SLaMrp613Gm' },
   { title: 'Big Black Car', artist: 'Gregory Alan Isakov', url: 'https://open.spotify.com/track/3Kj2EWpIBnvETsYq4cq0IH' },
-  { title: 'Legendary Lovers', artist: 'Katy Perry', url: 'https://open.spotify.com/track/0pOZYYEJawmTAPtkzYKSa2' },
-  { title: 'Harleys In Hawaii', artist: 'Katy Perry', url: 'https://open.spotify.com/track/5nCthAh3jt4xKuLJAifAaR' },
+  { title: '4Me 4Me', artist: 'Malcolm Todd', url: 'https://open.spotify.com/track/07oVB2BTnBp1RBQ5gdbWLA' },
+  { title: 'Without You', artist: 'Lana Del Rey', url: 'https://open.spotify.com/track/7cpHPzPgqKor6gv6nTkJ4R' },
   { title: 'Sunny day', artist: 'beabadoobee', url: 'https://open.spotify.com/track/12UQIJePnGeLmpVReYpG2w' },
-  // Pinned final song for day 0 ("today is the day!!") — not part of the sequential pull.
+  { title: 'Fooled Around And Fell In Love', artist: 'Elvin Bishop', url: 'https://open.spotify.com/track/2hE5Lm5XOHR4t3xlhIFauP' },
+  { title: 'touch tank', artist: 'quinnie', url: 'https://open.spotify.com/track/1TgCchWmdmmhGrtsa8NHwY' },
+  { title: 'In The Dark', artist: 'DEV', url: 'https://open.spotify.com/track/1pbHy9VBpSyZh56xuujZz0' },
+  { title: 'Stay', artist: 'Rihanna, Mikky Ekko', url: 'https://open.spotify.com/track/1dEy9Pl81QopSxNsPxXQxv' },
+  { title: 'Only One', artist: 'Blake Ruby', url: 'https://open.spotify.com/track/5YfiLxUDxi1GnGR1oca56V' },
+  { title: 'Under Your Spell', artist: 'Desire', url: 'https://open.spotify.com/track/2cSRuejq6DU9U6OkSmUw17' },
+  { title: 'Mykonos', artist: 'Fleet Foxes', url: 'https://open.spotify.com/track/3Ck96jIZdVzpWbbZ6mojsE' },
+  { title: "It's Not Living (If It's Not With You)", artist: 'The 1975', url: 'https://open.spotify.com/track/3TgMcrV32NUKjEG2ujn9eh' },
+  { title: 'Steal My Girl', artist: 'One Direction', url: 'https://open.spotify.com/track/2Bs4jQEGMycglOfWPBqrVG' },
+  { title: 'Debonair', artist: 'flowerovlove', url: 'https://open.spotify.com/track/3ZtasC1dw8fTMcsckkgSyx' },
+  { title: 'Haunt Me', artist: 'Matilda Mann', url: 'https://open.spotify.com/track/2LDLjL9TEy9HQqznnDaH3M' },
+  { title: 'CHERIE', artist: 'Darius, Darianna Everett', url: 'https://open.spotify.com/track/2bmN1B9HIZTGdaFqMYrgOR' },
+  { title: 'Ayonha', artist: 'Hamid Al Shaeri', url: 'https://open.spotify.com/track/7j3758mGOPLkd7UQsmbWYg' },
+  { title: 'Ragged Wood', artist: 'Fleet Foxes', url: 'https://open.spotify.com/track/2qvToeBdYliw6n0nEsKJQa' },
+  { title: 'Dandelion', artist: 'New Constellations', url: 'https://open.spotify.com/track/1kVi0hwmHSPIYh6Z5srTDk' },
+  { title: 'Nonsense', artist: 'Sabrina Carpenter', url: 'https://open.spotify.com/track/6dgUya35uo964z7GZXM07g' },
+  { title: 'Closer', artist: 'Ne-Yo', url: 'https://open.spotify.com/track/2XbfY2O2v3xwedUJ0J2kkr' },
+  { title: 'Dive', artist: 'Olivia Dean', url: 'https://open.spotify.com/track/36vmaZyO0iAE6FZ7287fg2' },
+  { title: "Nobody's Business", artist: 'Rihanna, Chris Brown', url: 'https://open.spotify.com/track/0qJWmTaT1qvCq0brgx8k2P' },
+  { title: 'Love You Like A Love Song', artist: 'Selena Gomez & The Scene', url: 'https://open.spotify.com/track/0laYHRpNTS6i8FXdupHkJ4' },
+  { title: 'Falling', artist: 'Iration', url: 'https://open.spotify.com/track/2tP2rytUFVm6lhCznfLbv6' },
+  { title: 'Powerlines', artist: 'Wells Ferrari', url: 'https://open.spotify.com/track/6DIaQqnqSNhVAQJXckAEUy' },
+  { title: 'Wasted Time', artist: 'Wells Ferrari, Mikey Ferrari, Will Wells', url: 'https://open.spotify.com/track/67rhdKBk5sEWM7dYtgsUuM' },
+  { title: 'Dancing in the Moonlight', artist: 'King Harvest', url: 'https://open.spotify.com/track/0q21FNwES2bbtcduB6kjEU' },
+  { title: 'To Be Alone With You', artist: 'Sufjan Stevens', url: 'https://open.spotify.com/track/12homE4JpBey5cckgoepR7' },
+  { title: 'All I Really Want Is You', artist: 'The Marías', url: 'https://open.spotify.com/track/410rGaFDJPwjsr9m9RPCkz' },
+  { title: 'Work Song', artist: 'Hozier', url: 'https://open.spotify.com/track/5TgEJ62DOzBpGxZ7WRsrqb' },
   { title: 'Those Eyes', artist: 'New West', url: 'https://open.spotify.com/track/50x1Ic8CaXkYNvjmxe3WXy' },
+  { title: 'The Things We Do For Love', artist: '10cc', url: 'https://open.spotify.com/track/6KEWtSOGKpIXGw6l1uJgsR' },
+  { title: 'I Got You', artist: 'Jack Johnson', url: 'https://open.spotify.com/track/12jjuxN1gxlm29cqL5M6MW' },
+  { title: 'Body & Soul (feat. Biig Piig)', artist: 'Emotional Oranges, Biig Piig', url: 'https://open.spotify.com/track/6ltcWFTmyRQbSNCNOTK0uM' },
+  { title: 'Sweet Disposition', artist: 'The Temper Trap', url: 'https://open.spotify.com/track/0fIDUXVyJ1JISqB4HP4D5H' },
+  { title: 'Toothbrush', artist: 'DNCE', url: 'https://open.spotify.com/track/7ciLq0Cip0yxiz6KANrOUq' },
+  { title: 'crystallized (feat. Inéz)', artist: 'John Summit, Inéz', url: 'https://open.spotify.com/track/6YiIWuVXS4AqF1KvUGMwyx' },
 ];
-const FIRST_DAY = 42; // SONGS[0] corresponds to this many days remaining (today, as of building this)
 
+// Picks a song for a given day using a deterministic hash of the day number,
+// so the same day always shows the same song on reload, but which song
+// lands on which day looks random rather than following playlist order.
 function getSongForDay(days) {
-  const index = FIRST_DAY - days;
-  if (index < 0 || index >= SONGS.length) return null;
-  return SONGS[index];
+  if (SONGS.length === 0) return null;
+  let seed = (days * 2654435761) % 2147483647;
+  if (seed <= 0) seed += 2147483646;
+  return SONGS[seed % SONGS.length];
 }
 
 const daysEl = document.getElementById('days');
@@ -163,7 +162,9 @@ const PHOTOS = [
   'photos/photo61.jpg', 'photos/photo62.jpg', 'photos/photo63.jpg', 'photos/photo64.jpg',
   'photos/photo65.jpg', 'photos/photo66.jpg', 'photos/photo67.jpg', 'photos/photo68.jpg',
   'photos/photo69.jpg', 'photos/photo70.jpg', 'photos/photo71.jpg', 'photos/photo72.jpg',
-  'photos/photo73.jpg',
+  'photos/photo73.jpg', 'photos/photo74.jpg', 'photos/photo75.jpg', 'photos/photo76.jpg',
+  'photos/photo77.jpg', 'photos/photo78.jpg', 'photos/photo79.jpg', 'photos/photo80.jpg',
+  'photos/photo81.jpg', 'photos/photo82.jpg', 'photos/photo83.jpg',
 ];
 
 const coverImgEl = document.getElementById('cover-img');
