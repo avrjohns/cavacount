@@ -1,12 +1,11 @@
 :root {
-  --sky: #37b6ff;
-  --sky-deep: #1e8fe0;
-  --ink: #1c2542;
-  --cream: #fffaf0;
-  --pink: #ff5fa2;
-  --sunny: #ffd23f;
+  --sky-top: #4fb3ff;
+  --sky-bottom: #1c7ed6;
+  --navy: #12213f;
+  --cream: #fff9ec;
+  --pink: #ff6fa5;
+  --lemon: #ffcb3d;
   --spotify: #1ed760;
-  --outline: #1c2542;
 }
 
 * {
@@ -19,119 +18,48 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  position: relative;
-  overflow-x: hidden;
-  background:
-    radial-gradient(circle at 18% 20%, rgba(255, 255, 255, 0.5) 0, transparent 3%),
-    radial-gradient(circle at 82% 15%, rgba(255, 255, 255, 0.5) 0, transparent 3%),
-    radial-gradient(circle at 65% 85%, rgba(255, 255, 255, 0.5) 0, transparent 3%),
-    radial-gradient(circle at 12% 70%, rgba(255, 255, 255, 0.5) 0, transparent 3%),
-    radial-gradient(circle at 40% 45%, rgba(255, 255, 255, 0.4) 0, transparent 3%),
-    radial-gradient(circle at 90% 55%, rgba(255, 255, 255, 0.4) 0, transparent 3%),
-    linear-gradient(160deg, #5fc9ff 0%, var(--sky) 45%, var(--sky-deep) 100%);
-  background-size: 60px 60px, 90px 90px, 70px 70px, 80px 80px, 55px 55px, 75px 75px, 100% 100%;
-  color: var(--ink);
-  font-family: 'Fredoka', 'Segoe UI', Helvetica, Arial, sans-serif;
-}
-
-/* Bouncy floating shapes drifting behind everything */
-.backdrop {
-  position: fixed;
-  inset: 0;
-  overflow: hidden;
-  z-index: 0;
-  pointer-events: none;
-}
-
-.glow {
-  position: absolute;
-  border-radius: 50%;
-  opacity: 0.55;
-  animation: bob 7s ease-in-out infinite;
-}
-
-.glow-a {
-  width: 90px;
-  height: 90px;
-  left: 6vw;
-  top: 12vh;
-  background: var(--sunny);
-  box-shadow: 0 0 0 6px rgba(255, 255, 255, 0.5);
-  animation-delay: 0s;
-}
-
-.glow-b {
-  width: 60px;
-  height: 60px;
-  right: 8vw;
-  top: 22vh;
-  background: var(--pink);
-  box-shadow: 0 0 0 6px rgba(255, 255, 255, 0.5);
-  animation-delay: -2.5s;
-}
-
-.glow-c {
-  width: 70px;
-  height: 70px;
-  right: 12vw;
-  bottom: 10vh;
-  background: #ffffff;
-  box-shadow: 0 0 0 6px rgba(255, 210, 63, 0.5);
-  animation-delay: -5s;
-}
-
-@keyframes bob {
-  0%, 100% { transform: translateY(0) rotate(0deg); }
-  50% { transform: translateY(-22px) rotate(8deg); }
+  background: linear-gradient(200deg, var(--sky-top) 0%, var(--sky-bottom) 70%);
+  color: var(--navy);
+  font-family: 'Nunito', 'Segoe UI', Helvetica, Arial, sans-serif;
 }
 
 .wrap {
-  position: relative;
-  z-index: 1;
   text-align: center;
   padding: 3rem 1.75rem;
-  max-width: 640px;
+  max-width: 600px;
 }
 
+/* Only the badge and the numbers get the full comic treatment — everything
+   else stays plain, so the fun bits read as chosen rather than applied
+   uniformly to every element on the page. */
 .eyebrow {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  margin: 0 0 1.5rem;
-  padding: 0.5rem 1.4rem;
+  display: inline-block;
+  margin: 0 0 1.25rem;
+  padding: 0.35rem 1.2rem;
   border-radius: 999px;
   background: var(--cream);
-  border: 4px solid var(--outline);
-  box-shadow: 5px 5px 0 var(--outline);
-  font-family: 'Baloo 2', 'Fredoka', sans-serif;
+  border: 3px solid var(--navy);
+  box-shadow: 3px 3px 0 var(--navy);
+  transform: rotate(-2deg);
+  font-family: 'Nunito', sans-serif;
   font-weight: 700;
-  font-size: clamp(0.95rem, 2.2vw, 1.15rem);
-  letter-spacing: 0.05em;
+  font-size: 0.85rem;
+  letter-spacing: 0.15em;
   text-transform: uppercase;
-  color: var(--ink);
+  color: var(--navy);
 }
 
 h1 {
-  font-family: 'Baloo 2', 'Fredoka', sans-serif;
-  font-size: clamp(1.9rem, 4.6vw, 2.9rem);
-  font-weight: 700;
-  line-height: 1.25;
+  font-family: 'Chewy', 'Nunito', sans-serif;
+  font-weight: 400;
+  font-size: clamp(1.7rem, 4.6vw, 2.6rem);
+  line-height: 1.3;
   margin: 0 0 2.5rem;
   color: #ffffff;
-  text-shadow:
-    -2px -2px 0 var(--outline), 2px -2px 0 var(--outline),
-    -2px 2px 0 var(--outline), 2px 2px 0 var(--outline),
-    0 -2px 0 var(--outline), 0 2px 0 var(--outline),
-    -2px 0 0 var(--outline), 2px 0 0 var(--outline),
-    5px 5px 0 var(--outline);
 }
 
 .heart {
   color: #ffffff;
-  display: inline-block;
-  text-shadow:
-    -1.5px -1.5px 0 var(--outline), 1.5px -1.5px 0 var(--outline),
-    -1.5px 1.5px 0 var(--outline), 1.5px 1.5px 0 var(--outline);
 }
 
 .countdown {
@@ -146,69 +74,51 @@ h1 {
   display: flex;
   flex-direction: column;
   align-items: center;
-  min-width: 76px;
+  min-width: 70px;
 }
 
 .colon {
   font-family: 'Source Code Pro', monospace;
-  font-size: clamp(1.75rem, 5vw, 3rem);
-  font-weight: 700;
-  color: #ffffff;
-  transform: translateY(-0.6rem);
-  text-shadow:
-    -1.5px -1.5px 0 var(--outline), 1.5px -1.5px 0 var(--outline),
-    -1.5px 1.5px 0 var(--outline), 1.5px 1.5px 0 var(--outline);
+  font-size: clamp(1.5rem, 4vw, 2.4rem);
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.6);
+  transform: translateY(-0.5rem);
 }
 
 .num {
   font-family: 'Source Code Pro', monospace;
-  font-size: clamp(2.5rem, 7vw, 4.25rem);
+  font-size: clamp(2.3rem, 6.5vw, 3.8rem);
   font-weight: 700;
   font-variant-numeric: tabular-nums;
-  color: var(--sunny);
+  color: var(--lemon);
   text-shadow:
-    -2px -2px 0 var(--outline), 2px -2px 0 var(--outline),
-    -2px 2px 0 var(--outline), 2px 2px 0 var(--outline),
-    0 -2px 0 var(--outline), 0 2px 0 var(--outline),
-    -2px 0 0 var(--outline), 2px 0 0 var(--outline),
-    4px 4px 0 var(--outline);
+    -2px -2px 0 var(--navy), 2px -2px 0 var(--navy),
+    -2px 2px 0 var(--navy), 2px 2px 0 var(--navy),
+    0 -2px 0 var(--navy), 0 2px 0 var(--navy),
+    -2px 0 0 var(--navy), 2px 0 0 var(--navy);
 }
 
 .label {
-  margin-top: 0.6rem;
-  padding: 0.15rem 0.7rem;
-  border-radius: 999px;
-  background: var(--cream);
-  border: 2.5px solid var(--outline);
+  margin-top: 0.5rem;
   font-size: 0.7rem;
-  font-weight: 700;
+  font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.14em;
-  color: var(--ink);
+  letter-spacing: 0.16em;
+  color: rgba(255, 255, 255, 0.75);
 }
 
 .media-card {
-  margin-top: 2.75rem;
+  margin-top: 2.5rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 1.5rem;
+  gap: 1.25rem;
   flex-wrap: wrap;
   width: 100%;
-  padding: 1.6rem 1.9rem;
-  border-radius: 26px;
+  padding: 1.4rem 1.6rem;
+  border-radius: 20px;
   background: var(--cream);
-  border: 4px solid var(--outline);
-  box-shadow: 7px 7px 0 var(--outline);
-  transform: rotate(1deg);
-  transition: padding 0.2s ease, transform 0.2s ease;
-}
-
-/* Once a song is tapped, the embed grows to fill the remaining space next
-   to the photo — the photo keeps showing, only the plain text link goes away
-   since the embed itself already shows the title and artist. */
-.media-card.playing {
-  transform: rotate(0deg);
+  box-shadow: 0 14px 32px rgba(10, 25, 60, 0.3);
 }
 
 .media-card.playing .song-label,
@@ -231,23 +141,19 @@ h1 {
 }
 
 .song-label {
-  margin: 0 0 0.6rem;
-  font-family: 'Baloo 2', 'Fredoka', sans-serif;
-  font-size: 0.9rem;
+  margin: 0 0 0.5rem;
+  font-size: 0.85rem;
   font-weight: 700;
-  color: var(--ink);
+  color: var(--navy);
 }
 
 .cover {
-  width: 140px;
-  height: 140px;
-  border-radius: 16px;
+  width: 130px;
+  height: 130px;
+  border-radius: 12px;
   overflow: hidden;
-  background: rgba(28, 37, 66, 0.06);
-  border: 4px solid var(--outline);
-  box-shadow: 4px 4px 0 var(--outline);
+  background: rgba(18, 33, 63, 0.08);
   flex-shrink: 0;
-  transform: rotate(-2deg);
 }
 
 .cover-img {
@@ -266,26 +172,22 @@ h1 {
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
-  padding: 0.6rem 1.3rem;
+  padding: 0.55rem 1.2rem;
   border-radius: 999px;
   background: var(--spotify);
-  border: 3px solid var(--outline);
-  box-shadow: 4px 4px 0 var(--outline);
-  color: var(--ink);
-  font-family: 'Baloo 2', 'Fredoka', sans-serif;
+  color: var(--navy);
   font-weight: 700;
-  font-size: 1rem;
+  font-size: 0.95rem;
   text-decoration: none;
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  transition: transform 0.15s ease;
 }
 
 .song-link:hover {
-  transform: translate(2px, 2px);
-  box-shadow: 2px 2px 0 var(--outline);
+  transform: scale(1.04);
 }
 
 .song-embed {
-  margin-top: 0.9rem;
+  margin-top: 0.8rem;
 }
 
 .song-embed iframe {
@@ -293,25 +195,20 @@ h1 {
   width: 100%;
   height: 152px;
   border: none;
-}
-
-.media-card.playing .song-embed iframe {
-  height: 152px;
-  border-radius: 16px;
+  border-radius: 12px;
 }
 
 .done-message {
   margin-top: 2.5rem;
-  font-family: 'Baloo 2', 'Fredoka', sans-serif;
-  font-size: clamp(1.7rem, 5.2vw, 2.6rem);
-  font-weight: 700;
-  color: var(--sunny);
+  font-family: 'Chewy', 'Nunito', sans-serif;
+  font-weight: 400;
+  font-size: clamp(1.6rem, 5vw, 2.4rem);
+  color: var(--lemon);
   text-shadow:
-    -2px -2px 0 var(--outline), 2px -2px 0 var(--outline),
-    -2px 2px 0 var(--outline), 2px 2px 0 var(--outline),
-    0 -2px 0 var(--outline), 0 2px 0 var(--outline),
-    -2px 0 0 var(--outline), 2px 0 0 var(--outline),
-    4px 4px 0 var(--outline);
+    -2px -2px 0 var(--navy), 2px -2px 0 var(--navy),
+    -2px 2px 0 var(--navy), 2px 2px 0 var(--navy),
+    0 -2px 0 var(--navy), 0 2px 0 var(--navy),
+    -2px 0 0 var(--navy), 2px 0 0 var(--navy);
 }
 
 .hidden {
@@ -350,12 +247,12 @@ h1 {
   z-index: 60;
   background: var(--pink);
   color: #fff;
-  border: 3px solid var(--outline);
+  border: none;
   border-radius: 999px;
   padding: 0.5rem 1.1rem;
-  font-family: 'Baloo 2', 'Fredoka', sans-serif;
+  font-family: 'Nunito', sans-serif;
   font-size: 0.85rem;
   font-weight: 700;
-  box-shadow: 3px 3px 0 var(--outline);
+  box-shadow: 0 4px 12px rgba(10, 25, 60, 0.3);
   cursor: pointer;
 }
