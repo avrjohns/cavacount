@@ -1,6 +1,8 @@
-// October 28, 2026, 12:00 AM Pacific
+// October 28, 2026, 12:00 AM Pacific (PDT, UTC-7 — daylight time is still in
+// effect on this date; DST doesn't end until Nov 1, 2026).
 const TARGET_DATE = new Date('2026-12-29T00:00:00-07:00');
 
+// Song pool pulled from the "Time Bomb" and "22" Spotify playlists.
 const SONGS = [
   { title: 'Time Bomb', artist: 'Iration', url: 'https://open.spotify.com/track/0KtKac3tvjeGjg6FXcUy7X' },
   { title: 'kisses', artist: 'Slowdive', url: 'https://open.spotify.com/track/7LuPjGUfJqxuW14W4gMrU2' },
@@ -164,7 +166,11 @@ const PHOTOS = [
   'photos/photo69.jpg', 'photos/photo70.jpg', 'photos/photo71.jpg', 'photos/photo72.jpg',
   'photos/photo73.jpg', 'photos/photo74.jpg', 'photos/photo75.jpg', 'photos/photo76.jpg',
   'photos/photo77.jpg', 'photos/photo78.jpg', 'photos/photo79.jpg', 'photos/photo80.jpg',
-  'photos/photo81.jpg', 'photos/photo82.jpg', 'photos/photo83.jpg',
+  'photos/photo81.jpg', 'photos/photo82.jpg', 'photos/photo83.jpg', 'photos/photo84.jpg',
+  'photos/photo85.jpg', 'photos/photo86.jpg', 'photos/photo87.jpg', 'photos/photo88.jpg',
+  'photos/photo89.jpg', 'photos/photo90.jpg', 'photos/photo91.jpg', 'photos/photo92.jpg',
+  'photos/photo93.jpg', 'photos/photo94.jpg', 'photos/photo95.jpg', 'photos/photo96.jpg',
+  'photos/photo97.jpg', 'photos/photo98.jpg', 'photos/photo99.jpg', 'photos/photo100.jpg',
 ];
 
 const coverImgEl = document.getElementById('cover-img');
