@@ -1,11 +1,17 @@
-// Falling Spongebob/Patrick sprites: gravity physics, drag-to-move, device-tilt
+// Falling Spongebob / Curious George / Man in the Yellow Hat sprites: gravity physics, drag-to-move, device-tilt
 // gravity, and shake-to-scatter — all tuned for fast, snappy movement.
 
 const SPRITE_LAYER = document.getElementById('sprite-layer');
 const TILT_BUTTON = document.getElementById('tilt-button');
 
-const SPRITE_IMAGES = ['sprites/spongebob.png', 'sprites/patrick.png', 'sprites/spiderman.png'];
-const SPRITE_COUNT = 6; // 2 Spongebob + 2 Patrick + 2 Spider-Man, alternating
+// aspect = width / height of the trimmed image; scale sizes each character so a
+// tall, thin one doesn't come out towering over the others.
+const SPRITE_IMAGES = [
+  { src: 'sprites/spongebob.png', aspect: 0.933, scale: 1.0 },
+  { src: 'sprites/curiousgeorge.png', aspect: 0.728, scale: 1.15 },
+  { src: 'sprites/manyellowhat.png', aspect: 0.296, scale: 1.75 },
+];
+const SPRITE_COUNT = 6; // 2 of each, alternating
 const GRAVITY = 1300; // px/s^2, base downward acceleration
 const RESTITUTION = 0.4; // bounce energy retained on wall/floor hits
 const MAX_SPEED = 1900;
@@ -29,13 +35,16 @@ function clamp(value, min, max) {
 }
 
 function createSprite(index) {
-  const src = SPRITE_IMAGES[index % SPRITE_IMAGES.length];
+  const { src, aspect, scale } = SPRITE_IMAGES[index % SPRITE_IMAGES.length];
   const el = document.createElement('img');
   el.className = 'sprite';
   el.draggable = false;
   el.alt = '';
 
-  const width = randomBetween(70, 125);
+  // Size by the larger dimension so tall and wide characters both look right.
+  const size = randomBetween(85, 130) * scale;
+  const width = aspect >= 1 ? size : size * aspect;
+  const initialHeight = aspect >= 1 ? size / aspect : size;
   el.style.width = `${width}px`;
   el.style.height = 'auto';
 
@@ -44,9 +53,9 @@ function createSprite(index) {
   const sprite = {
     el,
     width,
-    height: width, // corrected once real image dimensions are known
+    height: initialHeight, // corrected once real image dimensions are known
     x: randomBetween(0, Math.max(0, window.innerWidth - width)),
-    y: randomBetween(-window.innerHeight, -width),
+    y: randomBetween(-window.innerHeight, -initialHeight),
     vx: randomBetween(-80, 80),
     vy: 0,
     angle: randomBetween(-18, 18),
@@ -138,7 +147,7 @@ function attachDragHandlers(sprite) {
 // (the images have transparent margins, so a tight box would feel like
 // invisible walls between characters that visually aren't touching yet).
 function collisionRadius(sprite) {
-  return Math.min(sprite.width, sprite.height) * 0.32;
+  return Math.sqrt(sprite.width * sprite.height) * 0.32;
 }
 
 function resolveCollisions() {
