@@ -1,5 +1,4 @@
-// Falling Spongebob / Curious George / Man in the Yellow Hat sprites: gravity physics, drag-to-move, device-tilt
-// gravity, and shake-to-scatter — all tuned for fast, snappy movement.
+
 
 const SPRITE_LAYER = document.getElementById('sprite-layer');
 const TILT_BUTTON = document.getElementById('tilt-button');
@@ -13,11 +12,11 @@ const SPRITE_IMAGES = [
 ];
 const SPRITE_COUNT = 6; // 2 of each, alternating
 const GRAVITY = 1300; // px/s^2, base downward acceleration
-const RESTITUTION = 0.4; // bounce energy retained on wall/floor hits
+const RESTITUTION = 0.4; // good grief
 const MAX_SPEED = 1900;
 const COLLISION_RESTITUTION = 0.6; // bounce energy when two sprites collide with each other
 const AIR_DRAG = 0.998; // tiny per-frame velocity decay so shake energy settles afterward
-const ANGULAR_DRAG = 0.96; // per-frame spin decay so tumbling winds back down
+const ANGULAR_DRAG = 0.96; // frame by frame spin decay so tumbling winds back down
 const REST_SPEED = 40; // px/s below which a sprite touching a wall/floor is treated as resting
 const STATIC_FRICTION = 300; // px/s^2 of push needed to start a resting sprite sliding
 
@@ -41,7 +40,6 @@ function createSprite(index) {
   el.draggable = false;
   el.alt = '';
 
-  // Size by the larger dimension so tall and wide characters both look right.
   const size = randomBetween(85, 130) * scale;
   const width = aspect >= 1 ? size : size * aspect;
   const initialHeight = aspect >= 1 ? size / aspect : size;
@@ -53,7 +51,7 @@ function createSprite(index) {
   const sprite = {
     el,
     width,
-    height: initialHeight, // corrected once real image dimensions are known
+    height: initialHeight,
     x: randomBetween(0, Math.max(0, window.innerWidth - width)),
     y: randomBetween(-window.innerHeight, -initialHeight),
     vx: randomBetween(-80, 80),
@@ -65,9 +63,6 @@ function createSprite(index) {
     dragOffsetX: 0,
     dragOffsetY: 0,
     lastMoveTime: 0,
-    // Per-sprite variation so a uniform force (tilt, shake) doesn't send
-    // every character to the exact same spot at the exact same time —
-    // real objects in a jar differ slightly in how they catch, slide, and settle.
     massScale: randomBetween(0.7, 1.4),
     floorFriction: randomBetween(0.82, 0.94),
     restitutionScale: randomBetween(0.8, 1.2),
@@ -81,8 +76,6 @@ function createSprite(index) {
 
   el.addEventListener('load', applyNaturalSize);
   el.src = src;
-  // Cached images can fire 'load' before the listener above attaches, or
-  // never fire it at all in some browsers — check the already-decoded state too.
   if (el.complete) applyNaturalSize();
 
   attachDragHandlers(sprite);
@@ -107,8 +100,6 @@ function attachDragHandlers(sprite) {
     try {
       el.setPointerCapture(event.pointerId);
     } catch (err) {
-      // Some browsers reject capture for synthetic or already-released pointers;
-      // dragging still works via document-level move/up listeners below.
     }
   });
 
@@ -143,9 +134,6 @@ function attachDragHandlers(sprite) {
   el.addEventListener('pointercancel', endDrag);
 }
 
-// Two sprites collide as circles somewhat smaller than their bounding boxes
-// (the images have transparent margins, so a tight box would feel like
-// invisible walls between characters that visually aren't touching yet).
 function collisionRadius(sprite) {
   return Math.sqrt(sprite.width * sprite.height) * 0.32;
 }
@@ -174,14 +162,12 @@ function resolveCollisions() {
       const nx = dx / dist;
       const ny = dy / dist;
 
-      // Separate so they stop overlapping.
       const overlap = minDist - dist;
       a.x -= (nx * overlap) / 2;
       a.y -= (ny * overlap) / 2;
       b.x += (nx * overlap) / 2;
       b.y += (ny * overlap) / 2;
 
-      // Exchange velocity along the collision normal (equal-mass elastic-ish bounce).
       const relVx = b.vx - a.vx;
       const relVy = b.vy - a.vy;
       const relDot = relVx * nx + relVy * ny;
@@ -192,8 +178,6 @@ function resolveCollisions() {
         b.vx += impulse * nx;
         b.vy += impulse * ny;
 
-        // A glancing hit should also set them tumbling, not just bounce in a
-        // straight line — nudge spin from the sideways (tangential) part of the hit.
         const tangentX = -ny;
         const tangentY = nx;
         const tangentDot = relVx * tangentX + relVy * tangentY;
@@ -215,8 +199,6 @@ function stepPhysics(dt) {
     sprite.vx += gravityX * dt * sprite.massScale;
     sprite.vy += gravityY * dt * sprite.massScale;
 
-    // Gentle air drag so energy from a shake settles back down afterward
-    // instead of sliding around at top speed forever.
     sprite.vx *= AIR_DRAG;
     sprite.vy *= AIR_DRAG;
     sprite.angularVelocity *= ANGULAR_DRAG;
@@ -248,16 +230,12 @@ function stepPhysics(dt) {
       sprite.y = maxY;
       sprite.vy = -sprite.vy * restitution;
       sprite.vx *= sprite.floorFriction;
-      // Landing on the floor while moving sideways sets it rolling/tumbling.
       if (Math.abs(sprite.vx) > 60) sprite.angularVelocity += sprite.vx * 0.12;
       if (Math.abs(sprite.vy) < 40) sprite.vy = 0;
     } else if (sprite.y < minY) {
       sprite.y = minY;
       sprite.vy = -sprite.vy * restitution;
     }
-
-    // Resting: a sprite touching a wall/floor that isn't being pushed hard
-    // along it just stays put, instead of creeping and rocking forever.
     const touching = sprite.y >= maxY - 0.5 || sprite.y <= minY + 0.5 ||
       sprite.x <= minX + 0.5 || sprite.x >= maxX - 0.5;
     if (touching) {
@@ -294,15 +272,11 @@ function frame(now) {
   requestAnimationFrame(frame);
 }
 
-// --- Device tilt controls gravity direction on mobile ---
-// Gravity is a full directional vector (not a small offset on a fixed pull),
-// so tilting far enough in any direction sends sprites flying that way —
-// left/right/up/down all respond as strongly as the default downward pull.
 let baselineBeta = null;
 let baselineGamma = null;
 let lastTilt = null;
-const TILT_MAX_DEG = 32; // tilt angle (from resting position) for full-strength gravity
-const TILT_STRENGTH = 1.0; // multiplier vs. base GRAVITY; kept at 1 so tilt redirects gravity rather than overpowering it into one hard pull
+const TILT_MAX_DEG = 32;
+const TILT_STRENGTH = 1.0;
 
 function handleOrientation(event) {
   if (event.beta === null || event.gamma === null) return;
@@ -310,8 +284,6 @@ function handleOrientation(event) {
     baselineBeta = event.beta;
     baselineGamma = event.gamma;
   }
-  // Ignore sub-degree wobble (hand tremor / sensor noise) so a phone held
-  // still doesn't keep nudging the characters.
   if (lastTilt && Math.abs(event.beta - lastTilt.beta) < 0.8 && Math.abs(event.gamma - lastTilt.gamma) < 0.8) return;
   lastTilt = { beta: event.beta, gamma: event.gamma };
   const deltaBeta = clamp((event.beta - baselineBeta) / TILT_MAX_DEG, -1, 1);
@@ -325,11 +297,6 @@ function enableTilt() {
   window.addEventListener('deviceorientation', handleOrientation, true);
 }
 
-// --- Shaking the phone jostles every sprite continuously, like a jar ---
-// Every motion reading injects force straight into each sprite's velocity in
-// real time (no threshold/cooldown gating a single "pop") — combined with
-// sprite-vs-sprite collisions, this is what makes it read as shaking a jar
-// full of characters rather than launching a single firework per shake.
 const SHAKE_FORCE = 32; // px/s velocity added per unit of device acceleration (m/s^2), per reading
 const SHAKE_MAX_PER_EVENT = 650; // cap per single reading so one spike can't fling something off-screen instantly
 
@@ -340,12 +307,9 @@ function handleMotion(event) {
   let fy = 0;
 
   if (event.acceleration && event.acceleration.x != null) {
-    // Gravity already excluded — this is purely the shake motion.
     fx = event.acceleration.x;
     fy = event.acceleration.y;
   } else if (event.accelerationIncludingGravity && event.accelerationIncludingGravity.x != null) {
-    // Fall back to the change between readings, which cancels out the
-    // constant gravity component and leaves just the shake motion.
     const acc = event.accelerationIncludingGravity;
     if (lastAcceleration) {
       fx = acc.x - lastAcceleration.x;
@@ -356,20 +320,14 @@ function handleMotion(event) {
     return;
   }
 
-  // Device +x is to the right and matches screen x when the phone is held
-  // upright; device +y points toward the top of the phone, opposite of
-  // screen y (which grows downward), so it's flipped here.
   const forceX = clamp(fx * SHAKE_FORCE, -SHAKE_MAX_PER_EVENT, SHAKE_MAX_PER_EVENT);
   const forceY = clamp(-fy * SHAKE_FORCE, -SHAKE_MAX_PER_EVENT, SHAKE_MAX_PER_EVENT);
 
   if (forceX === 0 && forceY === 0) return;
-  // Accelerometer noise at rest is a fraction of a m/s^2; real shaking is far above this.
   if (Math.hypot(fx, fy) < 1.5) return;
 
   for (const sprite of sprites) {
     if (sprite.dragging) continue;
-    // Slight per-sprite variation so a jar full of characters jostles
-    // unevenly instead of all moving in perfect lockstep.
     sprite.vx += forceX * randomBetween(0.7, 1.3);
     sprite.vy += forceY * randomBetween(0.7, 1.3);
   }
@@ -385,7 +343,6 @@ const needsMotionPermission =
   typeof DeviceMotionEvent !== 'undefined' && typeof DeviceMotionEvent.requestPermission === 'function';
 
 if (needsOrientationPermission || needsMotionPermission) {
-  // iOS 13+ requires an explicit user gesture to grant motion/orientation access.
   TILT_BUTTON.classList.remove('hidden');
   TILT_BUTTON.addEventListener('click', () => {
     const requests = [];
