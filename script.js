@@ -116,6 +116,8 @@ songLinkEl.addEventListener('click', (event) => {
   mediaCardEl.classList.add('playing');
 });
 
+let timer = null;
+
 function tick() {
   const now = new Date();
   const diff = TARGET_DATE - now;
@@ -124,7 +126,7 @@ function tick() {
     countdownEl.classList.add('hidden');
     songSectionEl.classList.add('hidden');
     doneMessageEl.classList.remove('hidden');
-    clearInterval(timer);
+    if (timer !== null) clearInterval(timer);
     return;
   }
 
@@ -141,7 +143,7 @@ function tick() {
 }
 
 tick();
-const timer = setInterval(tick, 1000);
+if (timer === null && TARGET_DATE - new Date() > 0) timer = setInterval(tick, 1000);
 
 // Photo cover rotation. Listed explicitly (rather than probed at runtime) so the
 // first photo appears immediately instead of waiting on network round-trips.
