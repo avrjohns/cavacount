@@ -106,7 +106,6 @@ h1 {
   padding: 1.4rem 1.6rem;
   border-radius: 20px;
   background: var(--cream);
-  box-shadow: 0 14px 32px rgba(10, 25, 60, 0.3);
 }
 
 .media-card.playing .song-label,
@@ -220,7 +219,6 @@ h1 {
   user-select: none;
   -webkit-user-drag: none;
   cursor: grab;
-  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.35));
   will-change: left, top;
 }
 
@@ -241,6 +239,5 @@ h1 {
   font-family: 'Nunito', sans-serif;
   font-size: 0.85rem;
   font-weight: 700;
-  box-shadow: 0 4px 12px rgba(10, 25, 60, 0.3);
   cursor: pointer;
 }
