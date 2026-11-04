@@ -1,5 +1,5 @@
 // October 28, 2026, 12:00 AM Pacific
-const TARGET_DATE = new Date('2026-10-28T00:00:00-07:00');
+const TARGET_DATE = new Date('2026-12-29T00:00:00-07:00');
 
 const SONGS = [
   { title: 'Time Bomb', artist: 'Iration', url: 'https://open.spotify.com/track/0KtKac3tvjeGjg6FXcUy7X' },
