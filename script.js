@@ -1,6 +1,6 @@
-// October 28, 2026, 12:00 AM Pacific (PDT, UTC-7 — daylight time is still in
-// effect on this date; DST doesn't end until Nov 1, 2026).
-const TARGET_DATE = new Date('2026-12-29T00:00:00-07:00');
+// December 29, 2026, 11:55 PM Pacific (PST, UTC-8 — standard time is in effect
+// in December).
+const TARGET_DATE = new Date('2026-12-29T23:55:00-08:00');
 
 // Song pool pulled from the "Time Bomb" and "22" Spotify playlists.
 const SONGS = [
