@@ -12,7 +12,8 @@ const MAX_SPEED = 1900;
 const COLLISION_RESTITUTION = 0.6; // bounce energy when two sprites collide with each other
 const AIR_DRAG = 0.998; // tiny per-frame velocity decay so shake energy settles afterward
 const ANGULAR_DRAG = 0.96; // per-frame spin decay so tumbling winds back down
-const JITTER = 220; // px/s^2 of small continuous random noise, prevents identical resting spots
+const REST_SPEED = 40; // px/s below which a sprite touching a wall/floor is treated as resting
+const STATIC_FRICTION = 300; // px/s^2 of push needed to start a resting sprite sliding
 
 let gravityX = 0;
 let gravityY = GRAVITY;
@@ -205,11 +206,6 @@ function stepPhysics(dt) {
     sprite.vx += gravityX * dt * sprite.massScale;
     sprite.vy += gravityY * dt * sprite.massScale;
 
-    // A little constant random jitter (like uneven friction / air currents)
-    // so sprites never all converge on the exact same resting point.
-    sprite.vx += randomBetween(-JITTER, JITTER) * dt;
-    sprite.vy += randomBetween(-JITTER, JITTER) * dt;
-
     // Gentle air drag so energy from a shake settles back down afterward
     // instead of sliding around at top speed forever.
     sprite.vx *= AIR_DRAG;
@@ -244,11 +240,24 @@ function stepPhysics(dt) {
       sprite.vy = -sprite.vy * restitution;
       sprite.vx *= sprite.floorFriction;
       // Landing on the floor while moving sideways sets it rolling/tumbling.
-      sprite.angularVelocity += sprite.vx * 0.12;
+      if (Math.abs(sprite.vx) > 60) sprite.angularVelocity += sprite.vx * 0.12;
       if (Math.abs(sprite.vy) < 40) sprite.vy = 0;
     } else if (sprite.y < minY) {
       sprite.y = minY;
       sprite.vy = -sprite.vy * restitution;
+    }
+
+    // Resting: a sprite touching a wall/floor that isn't being pushed hard
+    // along it just stays put, instead of creeping and rocking forever.
+    const touching = sprite.y >= maxY - 0.5 || sprite.y <= minY + 0.5 ||
+      sprite.x <= minX + 0.5 || sprite.x >= maxX - 0.5;
+    if (touching) {
+      if (Math.abs(gravityX * sprite.massScale) < STATIC_FRICTION && Math.abs(sprite.vx) < REST_SPEED) sprite.vx = 0;
+      if (Math.abs(gravityY * sprite.massScale) < STATIC_FRICTION && Math.abs(sprite.vy) < REST_SPEED) sprite.vy = 0;
+      sprite.angularVelocity *= 0.8;
+      if (Math.abs(sprite.vx) < REST_SPEED && Math.abs(sprite.vy) < REST_SPEED && Math.abs(sprite.angularVelocity) < 4) {
+        sprite.angularVelocity = 0;
+      }
     }
   }
 
@@ -282,6 +291,7 @@ function frame(now) {
 // left/right/up/down all respond as strongly as the default downward pull.
 let baselineBeta = null;
 let baselineGamma = null;
+let lastTilt = null;
 const TILT_MAX_DEG = 32; // tilt angle (from resting position) for full-strength gravity
 const TILT_STRENGTH = 1.0; // multiplier vs. base GRAVITY; kept at 1 so tilt redirects gravity rather than overpowering it into one hard pull
 
@@ -291,6 +301,10 @@ function handleOrientation(event) {
     baselineBeta = event.beta;
     baselineGamma = event.gamma;
   }
+  // Ignore sub-degree wobble (hand tremor / sensor noise) so a phone held
+  // still doesn't keep nudging the characters.
+  if (lastTilt && Math.abs(event.beta - lastTilt.beta) < 0.8 && Math.abs(event.gamma - lastTilt.gamma) < 0.8) return;
+  lastTilt = { beta: event.beta, gamma: event.gamma };
   const deltaBeta = clamp((event.beta - baselineBeta) / TILT_MAX_DEG, -1, 1);
   const deltaGamma = clamp((event.gamma - baselineGamma) / TILT_MAX_DEG, -1, 1);
 
@@ -340,6 +354,8 @@ function handleMotion(event) {
   const forceY = clamp(-fy * SHAKE_FORCE, -SHAKE_MAX_PER_EVENT, SHAKE_MAX_PER_EVENT);
 
   if (forceX === 0 && forceY === 0) return;
+  // Accelerometer noise at rest is a fraction of a m/s^2; real shaking is far above this.
+  if (Math.hypot(fx, fy) < 1.5) return;
 
   for (const sprite of sprites) {
     if (sprite.dragging) continue;
