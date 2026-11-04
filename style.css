@@ -1,6 +1,5 @@
 :root {
-  --sky-top: #c2c8ff;
-  --sky-bottom: #8591ef;
+  --periwinkle: #a7b0f6;
   --navy: #12213f;
   --cream: #fff9ec;
   --pink: #ff6fa5;
@@ -18,7 +17,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(200deg, var(--sky-top) 0%, var(--sky-bottom) 70%);
+  background: var(--periwinkle);
   color: var(--navy);
   font-family: 'Nunito', 'Segoe UI', Helvetica, Arial, sans-serif;
 }
